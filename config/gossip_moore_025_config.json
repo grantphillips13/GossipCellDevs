@@ -10,13 +10,13 @@
       "model": "gossip",
       "state": { "knows": 0 },
       "config": {
-        "spread_prob": 0.50,
+        "spread_prob": 0.25,
         "forget_prob": 0.10
       },
       "neighborhood": [
         {
-          "type": "von_neumann",
-          "vicinity": 0.25,
+          "type": "moore",
+          "vicinity": 0.125,
           "range": 1
         },
         {

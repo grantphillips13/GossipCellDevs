@@ -14,12 +14,31 @@
         "forget_prob": 0.10
       },
       "neighborhood": [
-        { "type": "von_neumann", "range": 1 }
+        {
+          "type": "von_neumann",
+          "vicinity": 0.25,
+          "range": 1
+        },
+        {
+          "type": "relative",
+          "vicinity": 1,
+          "neighbors": [[0, 0]]
+        }
       ]
     },
     "source": {
       "state": { "knows": 1 },
       "cell_map": [[5, 5]]
     }
-  }
+  },
+  "filter": {
+    "port_name": [""]
+  },
+  "viewer": [
+    {
+      "field": "knows",
+      "breaks": [0.0, 0.5, 1.0],
+      "colors": [[220, 220, 220], [255, 0, 0]]
+    }
+  ]
 }
