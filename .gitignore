@@ -1,0 +1,6 @@
+# Build artifacts
+build/
+bin/
+
+# Generated logs/output
+gossip_log.csv

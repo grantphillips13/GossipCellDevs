@@ -1,18 +1,22 @@
-#pragma once
-#include <string>
-#include <cadmium/modeling/celldevs/grid/coupled.hpp>
-#include "gossip_cell.hpp"
+// #ifndef GOSSIP_COUPLED_HPP
+// #define GOSSIP_COUPLED_HPP
 
-using namespace cadmium;
-using namespace std;
+// #include <cadmium/modeling/celldevs/asymm/config.hpp>
+// #include <cadmium/modeling/celldevs/asymm/coupled.hpp>
+// #include "gossip_cell.hpp"
 
-class gossip_coupled : public GridCellDEVSCoupled<gossip_state, double> {
-public:
-    gossip_coupled(const string& id, const string& configFilePath)
-        : GridCellDEVSCoupled<gossip_state, double>(id, configFilePath) {}
+// using namespace cadmium::celldevs;
 
-    void addCell(const std::vector<int>& cellId,
-                 const std::shared_ptr<const GridCellConfig<gossip_state, double>>& cellConfig) const override {
-        addComponent(gossip_cell(cellId, cellConfig));
-    }
-};
+// inline std::shared_ptr<AsymmCell<GossipState, double>>
+// addGossipCell(
+//     const std::string& cellId,
+//     const std::shared_ptr<const AsymmCellConfig<GossipState, double>>& config
+// ) {
+//     if (config->cellModel == "GossipCell") {
+//         return std::make_shared<GossipCell>(cellId, config);
+//     } else {
+//         throw std::bad_typeid();
+//     }
+// }
+
+// #endif // GOSSIP_COUPLED_HPP

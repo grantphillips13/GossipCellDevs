@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Gossip_Model LANGUAGES CXX)
+set(projectName "Gossip_Model")
 
-# Final executable goes under bin/
+project(${projectName} LANGUAGES CXX)
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-# Pull in the main/ folder
 add_subdirectory(main)

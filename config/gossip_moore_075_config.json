@@ -8,17 +8,17 @@
     "default": {
       "delay": "inertial",
       "model": "gossip",
-      "state": { "knows": false },
+      "state": { "knows": 0 },
       "config": {
-        "spread_prob": 0.5,
-        "forget_prob": 0.1
+        "spread_prob": 0.75,
+        "forget_prob": 0.10
       },
       "neighborhood": [
         { "type": "moore", "range": 1 }
       ]
     },
     "source": {
-      "state": { "knows": true },
+      "state": { "knows": 1 },
       "cell_map": [[5, 5]]
     }
   }

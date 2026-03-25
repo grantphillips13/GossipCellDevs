@@ -1,73 +1,60 @@
-#pragma once
-#include <random>
+#ifndef GOSSIP_CELL_HPP
+#define GOSSIP_CELL_HPP
+
 #include <cmath>
+#include <random>
 #include <cadmium/modeling/celldevs/grid/cell.hpp>
+#include <cadmium/modeling/celldevs/grid/config.hpp>
 #include "gossip_state.hpp"
 
-using namespace cadmium;
-using namespace std;
+using namespace cadmium::celldevs;
 
 class gossip_cell : public GridCell<gossip_state, double> {
-private:
-    double spread_prob;
-    double forget_prob;
-
-    // Simple RNG per cell
-    mutable std::mt19937 gen;
-    mutable std::uniform_real_distribution<double> dist;
-
 public:
-    gossip_cell(const std::vector<int>& id,
-                const std::shared_ptr<const GridCellConfig<gossip_state, double>>& config)
-        : GridCell<gossip_state, double>(id, config),
-          spread_prob(0.5),
-          forget_prob(0.1),
-          dist(0.0, 1.0) {
+    gossip_cell(
+        const std::vector<int>& id,
+        const std::shared_ptr<const GridCellConfig<gossip_state, double>>& config
+    )
+    : GridCell<gossip_state, double>(id, config), dist_(0.0, 1.0)
+    {
+        config->rawCellConfig.at("spread_prob").get_to(spread_prob_);
+        config->rawCellConfig.at("forget_prob").get_to(forget_prob_);
 
-        // Read custom config values from JSON
-        if (config->rawCellConfig.contains("spread_prob")) {
-            config->rawCellConfig.at("spread_prob").get_to(spread_prob);
-        }
-        if (config->rawCellConfig.contains("forget_prob")) {
-            config->rawCellConfig.at("forget_prob").get_to(forget_prob);
-        }
-
-        // deterministic-ish seed per cell
         unsigned seed = 12345;
-        for (int v : id) seed = seed * 31 + static_cast<unsigned>(v + 1000);
-        gen.seed(seed);
+        for (int v : id) {
+            seed = seed * 31 + static_cast<unsigned>(v + 1000);
+        }
+        gen_.seed(seed);
     }
 
-    gossip_state localComputation(
+    [[nodiscard]] gossip_state localComputation(
         gossip_state state,
         const std::unordered_map<std::vector<int>, NeighborData<gossip_state, double>>& neighborhood
     ) const override {
-
         int active_neighbors = 0;
 
-        for (const auto& [neighbor_id, neighbor_data] : neighborhood) {
-            auto nstate = neighbor_data.state;
-            if (nstate->knows) {
+        for (const auto& [neighborId, neighborData] : neighborhood) {
+            auto nState = neighborData.state;
+            if (nState->knows) {
                 active_neighbors++;
             }
         }
 
-        // remove self if your neighborhood includes (0,0)
         if (state.knows) {
-            active_neighbors--;
+            active_neighbors--; // self is included in Moore neighborhood
         }
 
-        double roll = dist(gen);
+        double roll = dist_(gen_);
 
         if (!state.knows) {
             if (active_neighbors > 0) {
-                double p_become = 1.0 - std::pow(1.0 - spread_prob, active_neighbors);
-                if (roll < p_become) {
+                double p_spread = 1.0 - std::pow(1.0 - spread_prob_, active_neighbors);
+                if (roll < p_spread) {
                     state.knows = true;
                 }
             }
         } else {
-            if (roll < forget_prob) {
+            if (roll < forget_prob_) {
                 state.knows = false;
             }
         }
@@ -75,7 +62,16 @@ public:
         return state;
     }
 
-    double outputDelay(const gossip_state& state) const override {
+    [[nodiscard]] double outputDelay(const gossip_state& state) const override {
         return 1.0;
     }
+
+private:
+    double spread_prob_;
+    double forget_prob_;
+
+    mutable std::mt19937 gen_;
+    mutable std::uniform_real_distribution<double> dist_;
 };
+
+#endif // GOSSIP_CELL_HPP
