@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project simulates the emergent spread of information (gossip) through a population using the **Cell-DEVS formalism** implemented in **Cadmium**.
+This project simulates the emergent spread of information (gossip) through a population using the **Cell-DEVS formalism**
 
 Individuals are modeled as cells on a 10×10 grid. Each cell represents a person who either knows (`1`) or does not know (`0`) a piece of information. A single source cell starts informed at `[5, 5]`, then information propagates to neighbors according to `spread_prob`. Informed cells may forget according to `forget_prob`.
 
