@@ -33,7 +33,7 @@ GossipCellDevs-1/
 │   ├── CMakeLists.txt                       # Main target build config
 │   └── include/
 │       ├── gossip_cell.hpp                  # Cell local transition logic
-│       └── gossip_state.hpp                 # Cell state definition + JSON parsing
+│       └── gossip_state.hpp                 # Cell state definition
 ├── config/
 │   ├── gossip_moore_025_config.json
 │   ├── gossip_moore_050_config.json
@@ -117,14 +117,14 @@ Run a scenario with optional simulation time (default: 100):
 Run all scenarios:
 
 ```bash
-./bin/Gossip_Model config/gossip_moore_025_config.json 100
-./bin/Gossip_Model config/gossip_moore_050_config.json 100
-./bin/Gossip_Model config/gossip_moore_075_config.json 100
-./bin/Gossip_Model config/gossip_neumann_025_config.json 100
-./bin/Gossip_Model config/gossip_neumann_050_config.json 100
-./bin/Gossip_Model config/gossip_neumann_075_config.json 100
-./bin/Gossip_Model config/gossip_test_fullspread_config.json 100
-./bin/Gossip_Model config/gossip_test_nospread_config.json 100
+./bin/Gossip_Model config/gossip_moore_025_config.json 
+./bin/Gossip_Model config/gossip_moore_050_config.json 
+./bin/Gossip_Model config/gossip_moore_075_config.json 
+./bin/Gossip_Model config/gossip_neumann_025_config.json 
+./bin/Gossip_Model config/gossip_neumann_050_config.json 
+./bin/Gossip_Model config/gossip_neumann_075_config.json 
+./bin/Gossip_Model config/gossip_test_fullspread_config.json 
+./bin/Gossip_Model config/gossip_test_nospread_config.json 
 ```
 
 Each run produces `gossip_log.csv` in the working directory.
