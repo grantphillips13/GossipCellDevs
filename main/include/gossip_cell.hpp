@@ -41,7 +41,7 @@ public:
         }
 
         if (state.knows) {
-            active_neighbors--; // self is included in Moore neighborhood
+            active_neighbors--;
         }
 
         double roll = dist_(gen_);
